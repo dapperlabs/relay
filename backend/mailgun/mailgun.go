@@ -1,16 +1,18 @@
 package mailgun
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 
 	smtp "github.com/emersion/go-smtp"
+	mg "github.com/mailgun/mailgun-go/v4"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
-	mg "gopkg.in/mailgun/mailgun-go.v1"
 )
 
 var _ smtp.Backend = &Backend{}
@@ -58,7 +60,7 @@ func NewBackend(domain, privateKey, publicKey string) (smtp.Backend, error) {
 // In relay there's no need for that at the moment
 func (b *Backend) Login(username, password string) (smtp.User, error) {
 	return &User{
-		mailgunClient:          mg.NewMailgun(b.Domain, b.privateKey, b.publicKey),
+		mailgunClient:          mg.NewMailgun(b.Domain, b.privateKey),
 		metricsMailgunMessages: b.metricsMailgunMessages,
 	}, nil
 }
@@ -66,7 +68,7 @@ func (b *Backend) Login(username, password string) (smtp.User, error) {
 // AnonymousLogin returns anonymouse user object
 func (b *Backend) AnonymousLogin() (smtp.User, error) {
 	return &User{
-		mailgunClient:          mg.NewMailgun(b.Domain, b.privateKey, b.publicKey),
+		mailgunClient:          mg.NewMailgun(b.Domain, b.privateKey),
 		metricsMailgunMessages: b.metricsMailgunMessages,
 	}, nil
 }
@@ -82,8 +84,10 @@ func (b *Backend) ListenAndServeMetrics(addr string) error {
 // Send will send email synchronously via Mailgun service
 func (u *User) Send(from string, to []string, r io.Reader) error {
 	for _, recipient := range to {
-		message := mg.NewMIMEMessage(ioutil.NopCloser(r), recipient)
-		resp, id, err := u.mailgunClient.Send(message)
+		ctx, cancel := context.WithTimeout(context.Background(), time.Second*10)
+		defer cancel()
+		message := u.mailgunClient.NewMIMEMessage(ioutil.NopCloser(r), recipient)
+		resp, id, err := u.mailgunClient.Send(ctx, message)
 		if err != nil {
 			u.metricsMailgunMessages.WithLabelValues("fail").Inc()
 			return err

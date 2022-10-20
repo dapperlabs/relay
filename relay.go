@@ -6,13 +6,13 @@ import (
 	smtp "github.com/emersion/go-smtp"
 	"github.com/kelseyhightower/envconfig"
 
-	"github.com/teran/relay/backend/mailgun"
+	"github.com/darron/relay/backend/mailgun"
 )
 
 type config struct {
 	Addr              string `default:":25"`
-	AllowInsecureAuth bool   `default:"false" envconfig:"ALLOW_INSECURE_AUTH"`
-	AuthDisabled      bool   `default:"false" envconfig:"AUTH_DISABLED"`
+	AllowInsecureAuth bool   `default:"true" envconfig:"ALLOW_INSECURE_AUTH"`
+	AuthDisabled      bool   `default:"true" envconfig:"AUTH_DISABLED"`
 	Domain            string `required:"true"`
 	MailgunPrivateKey string `required:"true" envconfig:"MAILGUN_PRIVATE_KEY"`
 	MailgunPublicKey  string `required:"true" envconfig:"MAILGUN_PUBLIC_KEY"`
