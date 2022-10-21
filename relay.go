@@ -13,9 +13,8 @@ type config struct {
 	Addr              string `default:":25"`
 	AllowInsecureAuth bool   `default:"true" envconfig:"ALLOW_INSECURE_AUTH"`
 	AuthDisabled      bool   `default:"true" envconfig:"AUTH_DISABLED"`
-	Domain            string `required:"true"`
+	Domain            string `required:"true" envconfig:"DOMAIN"`
 	MailgunPrivateKey string `required:"true" envconfig:"MAILGUN_PRIVATE_KEY"`
-	MailgunPublicKey  string `required:"true" envconfig:"MAILGUN_PUBLIC_KEY"`
 	MaxIdleSeconds    int    `default:"300" envconfig:"MAX_IDLE_SECONDS"`
 	MaxMessageBytes   int    `default:"1048576" envconfig:"MAX_MESSAGE_BYTES"`
 	MaxRecipients     int    `default:"50" envconfig:"MAX_RECIPIENTS"`
@@ -32,7 +31,6 @@ func main() {
 	be, err := mailgun.NewBackend(
 		cfg.Domain,
 		cfg.MailgunPrivateKey,
-		cfg.MailgunPublicKey,
 	)
 	if err != nil {
 		log.Fatal(err)

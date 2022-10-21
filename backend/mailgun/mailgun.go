@@ -22,7 +22,6 @@ var _ smtp.User = &User{}
 type Backend struct {
 	Domain                 string
 	privateKey             string
-	publicKey              string
 	metricsMailgunMessages *prometheus.CounterVec
 }
 
@@ -33,15 +32,14 @@ type User struct {
 }
 
 // NewBackend returns new instance of backend
-func NewBackend(domain, privateKey, publicKey string) (smtp.Backend, error) {
-	if domain == "" || privateKey == "" || publicKey == "" {
-		return nil, fmt.Errorf("domain, privateKey, publicKey must not be empty")
+func NewBackend(domain, privateKey string) (smtp.Backend, error) {
+	if domain == "" || privateKey == "" {
+		return nil, fmt.Errorf("domain, privateKey must not be empty")
 	}
 
 	b := &Backend{
 		Domain:     domain,
 		privateKey: privateKey,
-		publicKey:  publicKey,
 		metricsMailgunMessages: prometheus.NewCounterVec(
 			prometheus.CounterOpts{
 				Name: "mailgun_messages",
