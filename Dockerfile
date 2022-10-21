@@ -5,7 +5,7 @@ ADD . .
 RUN make linux
 RUN chmod a+x /relay/bin/relay
 
-FROM alpine:latest
+FROM cgr.dev/chainguard/alpine-base:latest
 LABEL org.label-schema.vcs-url="https://github.com/darron/relay"
 RUN apk add --update --no-cache \
   ca-certificates && \
