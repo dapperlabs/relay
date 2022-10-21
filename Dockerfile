@@ -1,18 +1,15 @@
-FROM golang
+FROM golang as build
+RUN mkdir /relay
+WORKDIR /relay
+ADD . .
+RUN make linux
+RUN chmod a+x /relay/bin/relay
 
-ADD . /go/src/github.com/teran/relay
-RUN cd /go/src/github.com/teran/relay && CGO_ENABLED=0 go build -o bin/relay .
-
-FROM alpine
-
-ARG VCS_REF
-
-LABEL org.label-schema.vcs-ref=$VCS_REF \
-      org.label-schema.vcs-url="https://github.com/teran/relay"
-
+FROM alpine:latest
+LABEL org.label-schema.vcs-url="https://github.com/darron/relay"
 RUN apk add --update --no-cache \
   ca-certificates && \
   rm -vf /var/cache/apk/*
-COPY --from=0 /go/src/github.com/teran/relay/bin/relay /relay
-
+WORKDIR /
+COPY --from=build /relay/bin/relay .
 ENTRYPOINT ["/relay"]
