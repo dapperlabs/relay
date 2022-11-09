@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: relay
+  labels:
+    app: relay
+    version: v1
+    env: production
+    kind: web
+  annotations:
+    prometheus.io/scrape: 'true'
+    prometheus.io/port: '8081'
+spec:
+  selector:
+    matchLabels:
+      app: relay
+      version: v1
+      env: production
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: relay
+        version: v1
+        env: production
+        kind: web
+      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8081'
+    spec:
+      containers:
+        - name: relay
+          image: 'darron/relay:46ec69d298170a199fb2e7d0caca4c45a460ebb7'
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 25
+              protocol: TCP
+            - containerPort: 8081
+              protocol: TCP
+          env:
+            - name: RELAY_MAILGUN_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: mailgun-api-key
+                  key: api-key
+            - name: RELAY_ADDR
+              value: ':25'
+            - name: RELAY_DOMAIN
+              value: mailgun.dapperlabs.com
+          resources:
+            requests:
+              cpu: "10m"
+              memory: "24Mi"
+            limits:
+              cpu: "20m"
+              memory: "48Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8081
+            failureThreshold: 30
+            periodSeconds: 10
