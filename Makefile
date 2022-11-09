@@ -4,6 +4,7 @@ CONTAINER_NAME ?= darron/relay
 BUILD_COMMAND=-mod=vendor -o bin/$(BINARY_NAME) ../$(BINARY_NAME)
 UNAME=$(shell uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(shell uname -m)
+GIT_SHA=$(shell git rev-parse HEAD)
 
 all: build
 
@@ -19,7 +20,7 @@ clean: ## Remove compiled binaries.
 	rm -f bin/$(BINARY_NAME)*gz || true
 
 docker: ## Build Docker image
-	docker buildx build . --platform linux/amd64,linux/arm64 -t $(CONTAINER_NAME) --push
+	docker buildx build . --platform linux/amd64,linux/arm64 -t $(CONTAINER_NAME):$(GIT_SHA) --push
 
 build: clean
 	go build $(BUILD_COMMAND)
