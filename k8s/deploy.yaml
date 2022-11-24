@@ -42,7 +42,7 @@ spec:
             runAsGroup: 3000
             capabilities:
               drop: ["ALL"]
-          image: 'darron/relay:46ec69d298170a199fb2e7d0caca4c45a460ebb7'
+          image: 'us-west1-docker.pkg.dev/sre-artifacts/sre/relay:1aaae6e7a76e3df46c6e5b4b075515f5d4f4e7e8'
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 2025
