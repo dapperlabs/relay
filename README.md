@@ -1,6 +1,5 @@
 [![Go Report](https://goreportcard.com/badge/github.com/dapperlabs/relay)](https://goreportcard.com/report/github.com/dapperlabs/relay)
 [![License](https://img.shields.io/github/license/dapperlabs/relay.svg)](https://github.com/dapperlabs/relay/blob/master/LICENSE)
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fdapperlabs%2Frelay.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fdapperlabs%2Frelay?ref=badge_shield)
 
 [![Docker Automated build](https://img.shields.io/docker/automated/dapperlabs/relay.svg)](https://hub.docker.com/r/dapperlabs/relay/)
 [![GoDoc](https://godoc.org/github.com/dapperlabs/relay?status.svg)](https://godoc.org/github.com/dapperlabs/relay)
