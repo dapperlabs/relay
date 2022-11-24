@@ -30,12 +30,22 @@ spec:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8081'
     spec:
+      securityContext:
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: relay
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            runAsUser: 1000
+            runAsGroup: 3000
+            capabilities:
+              drop: ["ALL"]
           image: 'darron/relay:46ec69d298170a199fb2e7d0caca4c45a460ebb7'
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 25
+            - containerPort: 2025
               protocol: TCP
             - containerPort: 8081
               protocol: TCP
@@ -46,7 +56,7 @@ spec:
                   name: mailgun-api-key
                   key: api-key
             - name: RELAY_ADDR
-              value: ':25'
+              value: ':2025'
             - name: RELAY_DOMAIN
               value: mailgun.dapperlabs.com
           resources:
