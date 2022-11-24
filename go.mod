@@ -1,4 +1,4 @@
-module github.com/darron/relay
+module github.com/dapperlabs/relay
 
 go 1.19
 
