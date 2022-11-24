@@ -1,5 +1,5 @@
 BINARY_NAME ?= relay
-CONTAINER_NAME ?= dapperlabs/relay
+CONTAINER_NAME ?= us-west1-docker.pkg.dev/sre-artifacts/sre/relay
 
 BUILD_COMMAND=-mod=vendor -o bin/$(BINARY_NAME) ../$(BINARY_NAME)
 UNAME=$(shell uname -s | tr '[:upper:]' '[:lower:]')
