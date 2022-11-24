@@ -1,7 +1,6 @@
 [![Go Report](https://goreportcard.com/badge/github.com/dapperlabs/relay)](https://goreportcard.com/report/github.com/dapperlabs/relay)
 [![License](https://img.shields.io/github/license/dapperlabs/relay.svg)](https://github.com/dapperlabs/relay/blob/master/LICENSE)
 
-[![Docker Automated build](https://img.shields.io/docker/automated/dapperlabs/relay.svg)](https://hub.docker.com/r/dapperlabs/relay/)
 [![GoDoc](https://godoc.org/github.com/dapperlabs/relay?status.svg)](https://godoc.org/github.com/dapperlabs/relay)
 
 # mail-relay
