@@ -26,4 +26,4 @@ docker run -it \
 
 
 ## License
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fteran%2Frelay.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fteran%2Frelay?ref=badge_large)
+MIT
