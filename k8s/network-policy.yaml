@@ -13,6 +13,9 @@ spec:
     - namespaceSelector:
         matchLabels:
           name: namespace-goes-here
+    - podSelector:
+        matchLabels:
+          app: pod-that-can-talk-to-my-app
     ports:
     - port: 2025
       protocol: TCP
