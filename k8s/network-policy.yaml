@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  labels:
+    app: relay
+    version: v1
+    env: production
+    kind: web
+  name: relay
+spec:
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: policy-reporter
+    ports:
+    - port: 2025
+      protocol: TCP
+  podSelector:
+    matchLabels:
+      app: relay
+      version: v1
+      env: production
+  policyTypes:
+  - Ingress

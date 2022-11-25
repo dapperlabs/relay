@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
 - k8s/service.yaml
 - k8s/deploy.yaml
+- k8s/network-policy.yaml
