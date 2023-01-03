@@ -3,23 +3,18 @@ kind: NetworkPolicy
 metadata:
   labels:
     app: relay
-    version: v1
-    env: production
-    kind: web
   name: relay
 spec:
-  ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          name: policy-reporter
-    ports:
-    - port: 2025
-      protocol: TCP
   podSelector:
     matchLabels:
       app: relay
-      version: v1
-      env: production
   policyTypes:
-  - Ingress
+    - Ingress
+  ingress:
+    - from:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: policy-reporter
+      ports:
+      - port: 2025
+        protocol: TCP
